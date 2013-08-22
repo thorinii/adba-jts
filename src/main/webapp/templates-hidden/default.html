@@ -1,85 +1,169 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:lift="http://liftweb.net/">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <title class="lift:Menu.title">App: </title>
-    <style class="lift:CSS.blueprint"></style>
-    <style class="lift:CSS.fancyType"></style>
-    <script id="jquery" src="/classpath/jquery.js" type="text/javascript"></script>
-    <script id="json" src="/classpath/json.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <title class="lift:Menu.title">ADBA Job Tracking System - </title>
+    
     <style type="text/css">
-/* <![CDATA[ */
-.edit_error_class {
-  display: block;
-  color: red;
-}
+      body {
+        padding-top: 20px;
+        padding-bottom: 60px;
+      }
 
-.sidebar ul {
-	margin:0;
-	padding:0;
-	border-bottom:1px solid #ccc;
-}
-	 
+      /* Custom container */
+      .container {
+        margin: 0 auto;
+        max-width: 1000px;
+      }
+      .container > hr {
+        margin: 60px 0;
+      }
 
-.sidebar ul li {
-	margin:0;
-	padding:0;
-	list-style:none;
-	border:1px solid #ccc;
-	border-bottom:none;
-}
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 80px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 100px;
+        line-height: 1;
+      }
+      .jumbotron .lead {
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
 
-.sidebar ul li a {
-	display:block;
-	padding:3px;
-	text-indent:30px;
-	text-decoration:none;
-}
-
-.sidebar ul li span {
-	display:block;
-	padding:3px;
-	text-indent:30px;
-	text-decoration:none;
-}
-
-.sidebar ul li a:hover {
-	background-color: #eee;
-}
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
 
 
-  /* ]]> */
-  </style>
+      /* Customize the navbar links to be fill the entire space of the .navbar */
+      .navbar .navbar-inner {
+        padding: 0;
+      }
+      .navbar .nav {
+        margin: 0;
+        display: table;
+        width: 100%;
+      }
+      .navbar .nav li {
+        display: table-cell;
+        width: 1%;
+        float: none;
+      }
+      .navbar .nav li a {
+        font-weight: bold;
+        text-align: center;
+        border-left: 1px solid rgba(255,255,255,.75);
+        border-right: 1px solid rgba(0,0,0,.1);
+      }
+      .navbar .nav li:first-child a {
+        border-left: 0;
+        border-radius: 3px 0 0 3px;
+      }
+      .navbar .nav li:last-child a {
+        border-right: 0;
+        border-radius: 0 3px 3px 0;
+      }
+      
+      
+      .job-quick-status .progress {
+        margin-bottom: 5px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <div class="column span-12 last" style="text-align: right">
-        <h1 class="alt">app<img alt="" id="ajax-loader" style="display:none; margin-bottom: 0px; margin-left: 5px" src="/images/ajax-loader.gif"></h1>
-      </div>
-
-      <hr>
-
-      <div class="column span-6 colborder sidebar">
-        <hr class="space" >
-
-	<span class="lift:Menu.builder"></span>
-
+      <div class="masthead">
+        <h3 class="muted">ADBA Job Tracking System</h3>
+        
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="container">
+              <span class="lift:Menu.builder?top:class=nav;li_item:class=active;linkToSelf=true"></span>
+            </div>
+          </div>
+        </div>
+        
         <div class="lift:Msgs?showAll=true"></div>
-        <hr class="space" />
+        
       </div>
-
-      <div class="column span-17 last">
-        <div id="content">The main content will get bound here</div>
+      
+      <div class="mainbody row">
+        <div class="span9">
+          <h1><span class="lift:Menu.title"></span></h1>
+          <div id="content">The main content will get bound here</div>
+        </div>
+        <div class="span3 muted">
+          <h3>Current Jobs</h3>
+        
+          <div class="job-quick-status">
+            <h4>Australian Baptist 1925</h4>
+            <div class="progress">
+              <div class="bar" style="width: 60%">Scanning</div>
+            </div>
+            <div class="progress">
+              <div class="bar" style="width: 0%">Pixedit</div>
+            </div>
+            <div class="progress">
+              <div class="bar" style="width: 0%">Mastering</div>
+            </div>
+            <p><a class="btn" href="#">View details &raquo;</a></p>
+          </div>
+          
+          <div class="job-quick-status">
+            <h4>Australian Baptist 1922</h4>
+            <div class="progress">
+              <div class="bar bar-success" style="width: 85%">Scanning</div>
+              <div class="bar" style="width: 10%">R</div>
+            </div>
+            <div class="progress">
+              <div class="bar" style="width: 60%">Pixedit</div>
+            </div>
+            <div class="progress">
+              <div class="bar" style="width: 0%">Mastering</div>
+            </div>
+            <p><a class="btn" href="#">View details &raquo;</a></p>
+          </div>
+          
+          <div class="job-quick-status">
+            <h4>Australian Baptist 1921</h4>
+            <div class="progress">
+              <div class="bar bar-success" style="width: 100%">Scanning</div>
+            </div>
+            <div class="progress">
+              <div class="bar bar-success" style="width: 100%">Pixedit</div>
+            </div>
+            <div class="progress">
+              <div class="bar" style="width: 60%">Mastering</div>
+            </div>
+            <p><a class="btn" href="#">View details &raquo;</a></p>
+          </div>
+        </div>
       </div>
-
-      <hr />
-      <div class="column span-23 last" style="text-align: center">
-        <h4 class="alt">
-          <a href="http://www.liftweb.net"><i>Lift</i></a> 
-	  is Copyright 2007-2012 WorldWide Conferencing, LLC.
-	  Distributed under an Apache 2.0 License.</h4>
+      
+      <div class="footer">
+        <p>&copy; Flipside Virtual 2013</p>
       </div>
     </div>
+    
+    
+
+    <!-- JS -->
+    <script id="jquery" src="/classpath/jquery.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>

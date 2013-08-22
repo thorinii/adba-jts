@@ -4,6 +4,8 @@ import net.liftweb._
 import util._
 import Helpers._
 
+import scala.xml._
+
 import common._
 import http._
 import js.jquery.JQueryArtifacts
@@ -43,12 +45,16 @@ class Boot {
 
     // Build SiteMap
     def sitemap = SiteMap(
-      Menu.i("Home") / "index" >> User.AddUserMenusAfter, // the simple way to declare a menu
-
-      // more complex because this menu allows anything in the
-      // /static path to be visible
-      Menu(Loc("Static", Link(List("static"), true, "/static/index"), 
-	       "Static Content")))
+      Menu.i("Home") / "index", // the simple way to declare a menu
+      
+      Menu.param[Job](
+        "JobScanning",
+        "Job Scanning",
+        jobID => JobRepository.getByID(jobID),
+        job => "1"
+      ) / "job" / * / "scanning"
+        >> Title(job => Text("Scanning - " + job.name))
+    )
 
     def sitemapMutators = User.sitemapMutator
 
@@ -77,7 +83,7 @@ class Boot {
 
     // Use HTML5 for rendering
     LiftRules.htmlProperties.default.set((r: Req) =>
-      new Html5Properties(r.userAgent))    
+      new Html5Properties(r.userAgent))
 
     // Make a transaction span the whole HTTP request
     S.addAround(DB.buildLoanWrapper)
