@@ -18,7 +18,6 @@ class Scanning(job: Job) {
   def howdy = "#time *" #> date.map(_.toString)
   
   def info = {
-    //val job = Loc.currentValue.get
     val pagesScanned = job.pagesScanned
     val percentScanned = pagesScanned * 100 / job.pages
     
