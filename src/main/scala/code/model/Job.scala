@@ -13,25 +13,24 @@ import org.joda.time._
 
 case class Batch(name: String)
 
-case class Job(name: String, pages: Int, batch: Batch, scanning: Scanning) {
+case class Job(name: String, pages: Int, batch: Batch, scanning: JobScanning) {
   def pagesScanned = scanning.pagesScanned
   
-  def add(event: ScanningEvent) = {
-    Job(name, pages, batch, Scanning(event :: scanning.events))
+  def add(event: JobScanningEvent) = {
+    Job(name, pages, batch, JobScanning(event :: scanning.events))
   }
 }
 
-case class Scanning(events: List[ScanningEvent]) {
-  def pagesScanned = events.filter(_.isInstanceOf[Scanned])
-                           .foldLeft(0) ((b, a) => a match {
-                               case s: Scanned => b + s.pages
+case class JobScanning(events: List[JobScanningEvent]) {
+  def pagesScanned = events.foldLeft(0) ((b, a) => a match {
+                               case s: JobScannedEvent => b + s.pages
                                case _ => b
                              })
 }
 
 
-sealed class ScanningEvent(date: DateTime)
-case class Scanned(date: DateTime, pages: Int) extends ScanningEvent(date)
+sealed trait JobScanningEvent
+case class JobScannedEvent(date: DateTime, time: Period, pages: Int) extends JobScanningEvent
 
 
 object JobRepository {
@@ -42,7 +41,9 @@ object JobRepository {
   }
   
   def getByID(id : Long) : Box[Job] = Full(
-    Job("A Job", 628, Batch(""), Scanning(Nil))
-    .add(Scanned(new DateTime, 364))
+    Job("A Job", 628, Batch(""), JobScanning(Nil))
+    .add(JobScannedEvent(new DateTime, new Period(1, 30, 0, 0), 364))
+    .add(JobScannedEvent(new DateTime, new Period(1, 30, 0, 0), 23))
+    .add(JobScannedEvent(new DateTime, new Period(1, 30, 0, 0), 43))
   )
 }
