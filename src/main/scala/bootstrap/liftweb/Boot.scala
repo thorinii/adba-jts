@@ -14,6 +14,7 @@ import Loc._
 import mapper._
 
 import code.model._
+import code.repo._
 import net.liftmodules.JQueryModule
 
 
@@ -23,6 +24,8 @@ import net.liftmodules.JQueryModule
  */
 class Boot {
   def boot {
+    DefaultConnectionIdentifier.jndiName = "jdbc/rldb"
+  
     if (!DB.jndiJdbcConnAvailable_?) {
       val vendor = 
 	new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
@@ -34,11 +37,11 @@ class Boot {
 
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
     }
+    
+    
+    val jobRepo = new SQLJobRepository
+    RepositoryInjector.jobRepository.session.set(jobRepo)
 
-    // Use Lift's Mapper ORM to populate the database
-    // you don't need to use Mapper to use Lift... use
-    // any ORM you want
-    Schemifier.schemify(true, Schemifier.infoF _, User)
 
     // where to search snippet
     LiftRules.addToPackages("code")
@@ -50,7 +53,7 @@ class Boot {
       Menu.param[Job](
         "JobScanning",
         "Job Scanning",
-        jobID => JobRepository.getByID(jobID),
+        jobID => jobRepo.getByID(jobID),
         job => "1"
       ) / "job" / * / "scanning"
         >> Title(job => Text("Scanning - " + job.name))

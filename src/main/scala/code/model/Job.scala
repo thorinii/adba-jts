@@ -34,19 +34,3 @@ sealed trait ProducerEvent {
 }
 
 case class ScanningProducerEvent(date: DateTime, time: Period, pages: Int) extends ProducerEvent
-
-
-object JobRepository {
-  def getByID(id : String) : Box[Job] = try {
-    getByID(id.toLong)
-  } catch {
-    case e: Exception => Failure("Error getting by id", Full(e), Empty)
-  }
-  
-  def getByID(id : Long) : Box[Job] = Full(
-    Job("A Job", 628, Batch(""), Nil)
-      .add(ScanningProducerEvent(new DateTime, new Period(1, 30, 0, 0), 364))
-      .add(ScanningProducerEvent(new DateTime, new Period(1, 30, 0, 0), 23))
-      .add(ScanningProducerEvent(new DateTime, new Period(1, 30, 0, 0), 43))
-  )
-}
