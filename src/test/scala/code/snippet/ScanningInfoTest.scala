@@ -44,7 +44,7 @@ class ScanningInfoTest extends FunSpec with ShouldMatchers with XMLMatchers {
 
       val html = (<span id="total-scanned">here</span><div class="bar"></div>)
       val job = Job("A Job", 200, Batch("A Batch"), Nil)
-                .add(ScannedEvent(new DateTime, new Period, 50))
+                .add(ScanningProducerEvent(new DateTime, new Period, 50))
       
       val snippet = new Scanning(job)
       

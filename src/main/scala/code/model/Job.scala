@@ -16,24 +16,24 @@ case class Batch(name: String)
 case class Job(name: String, 
                 pages: Int, 
                 batch: Batch, 
-                scanningEvents: List[ScanningEvent]) {
+                scanningEvents: List[ProducerEvent]) {
 
   def pagesScanned = scanningEvents.foldLeft(0) ((b, a) => a match {
-                       case s: ScannedEvent => b + s.pages
+                       case s: ScanningProducerEvent => b + s.pages
                        case _ => b
                      })
   
-  def add(event: ScanningEvent) = {
+  def add(event: ProducerEvent) = {
     Job(name, pages, batch, event :: scanningEvents)
   }
 }
 
 
-sealed trait ScanningEvent {
+sealed trait ProducerEvent {
   def date: DateTime
 }
 
-case class ScannedEvent(date: DateTime, time: Period, pages: Int) extends ScanningEvent
+case class ScanningProducerEvent(date: DateTime, time: Period, pages: Int) extends ProducerEvent
 
 
 object JobRepository {
@@ -45,8 +45,8 @@ object JobRepository {
   
   def getByID(id : Long) : Box[Job] = Full(
     Job("A Job", 628, Batch(""), Nil)
-    .add(ScannedEvent(new DateTime, new Period(1, 30, 0, 0), 364))
-    .add(ScannedEvent(new DateTime, new Period(1, 30, 0, 0), 23))
-    .add(ScannedEvent(new DateTime, new Period(1, 30, 0, 0), 43))
+      .add(ScanningProducerEvent(new DateTime, new Period(1, 30, 0, 0), 364))
+      .add(ScanningProducerEvent(new DateTime, new Period(1, 30, 0, 0), 23))
+      .add(ScanningProducerEvent(new DateTime, new Period(1, 30, 0, 0), 43))
   )
 }

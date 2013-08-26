@@ -13,6 +13,26 @@ import code.model._
 import org.joda.time.format._
 
 class Scanning(job: Job) {
+  lazy val dateFormat = (new DateTimeFormatterBuilder)
+                           .appendHourOfDay(2)
+                           .appendLiteral(':')
+                           .appendMinuteOfHour(2)
+                           .appendLiteral(" - ")
+                           .appendDayOfMonth(2)
+                           .appendLiteral(' ')
+                           .appendMonthOfYearShortText()
+                           .appendLiteral(' ')
+                           .appendYear(2, 2)
+                           .toFormatter
+                           
+  lazy val timeFormat = (new PeriodFormatterBuilder)
+                           .printZeroAlways
+                           .appendHours
+                           .appendSuffix("h ", "h ")
+                           .appendMinutes
+                           .appendSuffix("min", "mins")
+                           .toFormatter
+
   def info = {
     val pagesScanned = job.pagesScanned
     val percentScanned = pagesScanned * 100 / job.pages
@@ -25,20 +45,11 @@ class Scanning(job: Job) {
   def events = {
     val events = job.scanningEvents
     var runningTotal = job.pagesScanned;
-    
-    val dateFormat = ISODateTimeFormat.dateTime;
-    val timeFormat = (new PeriodFormatterBuilder)
-                     .printZeroAlways
-                     .appendHours
-                     .appendSuffix("h ", "h ")
-                     .appendMinutes
-                     .appendSuffix("min", "mins")
-                     .toFormatter
                      
     
     if(events.isEmpty) ".event-row *" #> <td colspan='6'>No Events</td>
     else ".event-row" #> events.map (_ match { 
-      case ScannedEvent(date, time, pages) => {
+      case ScanningProducerEvent(date, time, pages) => {
         val t = runningTotal
         runningTotal -= pages
       
@@ -48,7 +59,7 @@ class Scanning(job: Job) {
         & ".newly-scanned *" #> pages
         & ".running-total *" #> t
         & ".running-percent *" #> (t * 100 / job.pages +"%"))}
-      case e: ScanningEvent => (
+      case e => (
           ".datetime *" #> dateFormat.print(e.date)
         & ".type *" #> "?"
         & ".time-taken *" #> "?"
@@ -57,15 +68,5 @@ class Scanning(job: Job) {
         & ".running-percent *" #> (runningTotal * 100 / job.pages +"%"))
     })
   }
-  
-  
-  /*<tr class="row">
-    <td class="datetime">16 Aug 12:34</td>
-    <td class="type">Scanned</td>
-    <td class="time-taken">1.5h</td>
-    <td class="newly-scanned">124</td>
-    <td class="running-total">369</td>
-    <td class="running-percent">59.5%</td>
-  </tr>*/
 }
 
