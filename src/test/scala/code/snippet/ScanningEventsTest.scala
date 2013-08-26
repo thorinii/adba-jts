@@ -19,7 +19,7 @@ class ScanningEventsTest extends FunSpec with ShouldMatchers with XMLMatchers {
             <td class="running-total"></td>
             <td class="running-percent"></td></tr></table>
 
-      val job = Job("A Job", 1, Batch("A Batch"), JobScanning(Nil))
+      val job = Job("A Job", 1, Batch("A Batch"), Nil)
       
       val snippet = new Scanning(job)
       
@@ -44,9 +44,9 @@ class ScanningEventsTest extends FunSpec with ShouldMatchers with XMLMatchers {
           </tr>
         </table>
 
-      val job = Job("A Job", 100, Batch("A Batch"), JobScanning(Nil))
-                .add(JobScannedEvent(new DateTime(0), new Period(1, 15, 0, 0), 27))
-                .add(JobScannedEvent(new DateTime(0), new Period(1, 30, 0, 0), 48))
+      val job = Job("A Job", 100, Batch("A Batch"), Nil)
+                .add(ScannedEvent(new DateTime(0), new Period(1, 15, 0, 0), 27))
+                .add(ScannedEvent(new DateTime(0), new Period(1, 30, 0, 0), 48))
       
       val snippet = new Scanning(job)
       

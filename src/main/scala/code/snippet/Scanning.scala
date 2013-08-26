@@ -23,7 +23,7 @@ class Scanning(job: Job) {
   }
   
   def events = {
-    val events = job.scanning.events
+    val events = job.scanningEvents
     var runningTotal = job.pagesScanned;
     
     val dateFormat = ISODateTimeFormat.dateTime;
@@ -38,18 +38,18 @@ class Scanning(job: Job) {
     
     if(events.isEmpty) ".event-row *" #> <td colspan='6'>No Events</td>
     else ".event-row" #> events.map (_ match { 
-      case JobScannedEvent(date, time, pages) => {
+      case ScannedEvent(date, time, pages) => {
         val t = runningTotal
         runningTotal -= pages
-      (
-          ".datetime *" #> dateFormat.print(date)
+      
+         (".datetime *" #> dateFormat.print(date)
         & ".type *" #> "Scanning"
         & ".time-taken *" #> timeFormat.print(time)
         & ".newly-scanned *" #> pages
         & ".running-total *" #> t
         & ".running-percent *" #> (t * 100 / job.pages +"%"))}
-      case _ => (
-          ".datetime *" #> "?"
+      case e: ScanningEvent => (
+          ".datetime *" #> dateFormat.print(e.date)
         & ".type *" #> "?"
         & ".time-taken *" #> "?"
         & ".newly-scanned *" #> "-"
