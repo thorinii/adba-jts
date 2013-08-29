@@ -10,20 +10,6 @@ import code.model._
 import code.repo._
 
 class SidebarTest extends FunSpec with ShouldMatchers with XMLMatchers {
-  val jobHTML = <div class="quick-job-status">
-              <h4>Title</h4>
-              <div class="progress scanning">
-                <div class="bar" style="width: ?%">Scanning</div>
-              </div>
-              <div class="progress processing">
-                <div class="bar" style="width: ?%">Pixedit</div>
-              </div>
-              <div class="progress mastering">
-                <div class="bar" style="width: ?%">Mastering</div>
-              </div>
-              <p><a class="btn" href="?">link</a></p>
-            </div>
-
   describe("The sidebar shortlist of Current Jobs") {
     it("should say 'there are no current jobs' when there are none") {
       val html = <div id="quick-job-status">error message here</div>
@@ -50,6 +36,20 @@ class SidebarTest extends FunSpec with ShouldMatchers with XMLMatchers {
     
     it("should show one job when there is one job") {
       RepositoryInjector.jobRepository.doWith(new SingleJobRepository) {
+        val jobHTML = <div class="quick-job-status">
+            <h4>Title</h4>
+            <div class="progress scanning">
+              <div class="bar" style="width: ?%"><a>Scanning</a></div>
+            </div>
+            <div class="progress processing">
+              <div class="bar" style="width: ?%"><a>Processing</a></div>
+            </div>
+            <div class="progress mastering">
+              <div class="bar" style="width: ?%"><a>Mastering</a></div>
+            </div>
+            <p><a class="btn" href="?">link</a></p>
+          </div>
+      
         val snippet = new Sidebar        
         val result = snippet.currentJobs(jobHTML)
         
@@ -57,13 +57,13 @@ class SidebarTest extends FunSpec with ShouldMatchers with XMLMatchers {
           <div class="quick-job-status">
             <h4>Australian Baptist 1925</h4>
             <div class="progress scanning">
-              <div class="bar" style="width: 20%">Scanning</div>
+              <div class="bar" style="width: 20%"><a href="/job/australian-baptist-1925/scanning">Scanning</a></div>
             </div>
             <div class="progress processing">
-              <div class="bar" style="width: 0%">Pixedit</div>
+              <div class="bar" style="width: 0%"><a href="/job/australian-baptist-1925/processing">Processing</a></div>
             </div>
             <div class="progress mastering">
-              <div class="bar" style="width: 0%">Mastering</div>
+              <div class="bar" style="width: 0%"><a href="/job/australian-baptist-1925/mastering">Mastering</a></div>
             </div>
             <p><a class="btn" href="/job/australian-baptist-1925">link</a></p>
           </div>
@@ -73,6 +73,20 @@ class SidebarTest extends FunSpec with ShouldMatchers with XMLMatchers {
     
     it("should show several jobs when there is more than 1") {
       RepositoryInjector.jobRepository.doWith(new MultiJobRepository) {
+        val jobHTML = <div class="quick-job-status">
+            <h4>Title</h4>
+            <div class="progress scanning">
+              <div class="bar" style="width: ?%"></div>
+            </div>
+            <div class="progress processing">
+              <div class="bar" style="width: ?%"></div>
+            </div>
+            <div class="progress mastering">
+              <div class="bar" style="width: ?%"></div>
+            </div>
+            <p><a class="btn" href="?">link</a></p>
+          </div>
+      
         val snippet = new Sidebar        
         val result = snippet.currentJobs(jobHTML)
         
@@ -80,37 +94,37 @@ class SidebarTest extends FunSpec with ShouldMatchers with XMLMatchers {
           <div class="quick-job-status">
             <h4>Australian Baptist 1925</h4>
             <div class="progress scanning">
-              <div class="bar" style="width: 20%">Scanning</div>
+              <div class="bar" style="width: 20%"></div>
             </div>
             <div class="progress processing">
-              <div class="bar" style="width: 0%">Pixedit</div>
+              <div class="bar" style="width: 0%"></div>
             </div>
             <div class="progress mastering">
-              <div class="bar" style="width: 0%">Mastering</div>
+              <div class="bar" style="width: 0%"></div>
             </div>
             <p><a class="btn" href="/job/australian-baptist-1925">link</a></p>
           </div><div class="quick-job-status">
             <h4>Australian Baptist 1926</h4>
             <div class="progress scanning">
-              <div class="bar" style="width: 0%">Scanning</div>
+              <div class="bar" style="width: 0%"></div>
             </div>
             <div class="progress processing">
-              <div class="bar" style="width: 0%">Pixedit</div>
+              <div class="bar" style="width: 0%"></div>
             </div>
             <div class="progress mastering">
-              <div class="bar" style="width: 0%">Mastering</div>
+              <div class="bar" style="width: 0%"></div>
             </div>
             <p><a class="btn" href="/job/australian-baptist-1926">link</a></p>
           </div><div class="quick-job-status">
             <h4>Australian Baptist 1927</h4>
             <div class="progress scanning">
-              <div class="bar" style="width: 0%">Scanning</div>
+              <div class="bar" style="width: 0%"></div>
             </div>
             <div class="progress processing">
-              <div class="bar" style="width: 0%">Pixedit</div>
+              <div class="bar" style="width: 0%"></div>
             </div>
             <div class="progress mastering">
-              <div class="bar" style="width: 0%">Mastering</div>
+              <div class="bar" style="width: 0%"></div>
             </div>
             <p><a class="btn" href="/job/australian-baptist-1927">link</a></p>
           </div>

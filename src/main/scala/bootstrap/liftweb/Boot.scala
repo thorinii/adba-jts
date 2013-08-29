@@ -53,10 +53,26 @@ class Boot {
       Menu.param[Job](
         "JobScanning",
         "Job Scanning",
-        jobID => jobRepo.getByID(jobID),
+        jobID => jobRepo.getByMachineName(jobID),
         job => "1"
       ) / "job" / * / "scanning"
-        >> Title(job => Text("Scanning - " + job.name))
+        >> Title(job => Text("Scanning - " + job.name)),
+        
+      Menu.param[Job](
+        "JobProcessing",
+        "Job Processing",
+        jobID => jobRepo.getByMachineName(jobID),
+        job => "1"
+      ) / "job" / * / "processing"
+        >> Title(job => Text("Processing - " + job.name)),
+        
+      Menu.param[Job](
+        "JobMastering",
+        "Job Mastering",
+        jobID => jobRepo.getByMachineName(jobID),
+        job => "1"
+      ) / "job" / * / "mastering"
+        >> Title(job => Text("Mastering - " + job.name))
     )
 
     def sitemapMutators = User.sitemapMutator

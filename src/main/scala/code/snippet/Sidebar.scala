@@ -13,7 +13,7 @@ import code.repo._
 import org.joda.time.format._
 
 class Sidebar {
-  lazy val jobRepo = RepositoryInjector.jobRepository.vend
+  lazy val jobRepo: JobRepository = RepositoryInjector.jobRepository.vend
 
   def currentJobs = {
     val jobs = jobRepo.getCurrent(3)
@@ -32,8 +32,11 @@ class Sidebar {
         ".quick-job-status *" #> jobsList.map(job =>
             "h4 *" #> job.name
           & ".scanning .bar [style]" #> ("width: " + (job.scannedFraction * 100).toInt + "%")
+          & ".scanning .bar a [href]" #> ("/job/" + job.machineName + "/scanning")
           & ".processing .bar [style]" #> ("width: " + (job.processedFraction * 100).toInt + "%")
+          & ".processing .bar a [href]" #> ("/job/" + job.machineName + "/processing")
           & ".mastering .bar [style]" #> ("width: " + (job.masteredFraction * 100).toInt + "%")
+          & ".mastering .bar a [href]" #> ("/job/" + job.machineName + "/mastering")
           & ".btn [href]" #> ("/job/" + job.machineName)
         )
         
