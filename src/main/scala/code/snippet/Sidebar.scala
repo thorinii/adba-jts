@@ -41,19 +41,5 @@ class Sidebar {
         "*" #> <div id="error">An error in the processing happened</div>
     }
   }
-  
-  /*<div class="quick-job-status">
-              <h4>?</h4>
-              <div class="progress scanning">
-                <div class="bar" style="width: ?%">Scanning</div>
-              </div>
-              <div class="progress processing">
-                <div class="bar" style="width: ?%">Pixedit</div>
-              </div>
-              <div class="progress mastering">
-                <div class="bar" style="width: ?%">Mastering</div>
-              </div>
-              <p><a class="btn" href="?">View details &raquo;</a></p>
-            </div>*/
 }
 
