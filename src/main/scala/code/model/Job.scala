@@ -22,6 +22,11 @@ case class Job(name: String,
                        case s: ScanningProducerEvent => b + s.pages
                        case _ => b
                      })
+
+  def scannedFraction = pagesScanned.toFloat / pages
+  def processedFraction = 0f
+  def masteredFraction = 0f
+  lazy val machineName = name.toLowerCase.replace(" ", "-")
   
   def add(event: ProducerEvent) = {
     Job(name, pages, batch, event :: scanningEvents)

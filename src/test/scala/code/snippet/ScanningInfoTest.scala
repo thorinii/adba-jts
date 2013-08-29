@@ -54,26 +54,3 @@ class ScanningInfoTest extends FunSpec with ShouldMatchers with XMLMatchers {
     }
   }
 }
-
-trait XMLMatchers  {
-  import scala.xml._
-  import scala.xml.Utility.trim
-  
-  lazy val prettyPrinter = new PrettyPrinter(80, 2)
-
-  def like(result: NodeSeq, expected: NodeSeq): Option[String] = {
-    val resultCanon = canonicalise(result)
-    val expectedCanon = canonicalise(expected)
-  
-    if(resultCanon.toString == expectedCanon.toString) None
-    else Some(
-         prettyPrinter.format(resultCanon)
-       + " is not like expected "
-       + prettyPrinter.format(expectedCanon))
-  }
-  
-  def canonicalise(nodeseq: NodeSeq): Node = nodeseq match {
-      case n: Node => trim(n)
-      case _ => canonicalise(nodeseq(0))
-  }
-}
