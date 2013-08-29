@@ -16,7 +16,7 @@ class Sidebar {
   lazy val jobRepo = RepositoryInjector.jobRepository.vend
 
   def currentJobs = {
-    val jobs = jobRepo.getCurrent(5)
+    val jobs = jobRepo.getCurrent(3)
     
     jobs match {
       case Empty => 
