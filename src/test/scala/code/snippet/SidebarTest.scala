@@ -137,6 +137,7 @@ class SidebarTest extends FunSpec with ShouldMatchers with XMLMatchers {
     import org.joda.time._
   
     override def getByID(id : Long) = Empty
+    override def getByMachineName(s : String) = Empty
 
     override def getCurrent(max: Int) = Full(List(
       Job("Australian Baptist 1925", 390, Batch(""), Nil)
@@ -147,6 +148,7 @@ class SidebarTest extends FunSpec with ShouldMatchers with XMLMatchers {
     import org.joda.time._
   
     override def getByID(id : Long) = Empty
+    override def getByMachineName(s : String) = Empty
 
     override def getCurrent(max: Int) = Full(List(
       Job("Australian Baptist 1925", 390, Batch(""), Nil)
