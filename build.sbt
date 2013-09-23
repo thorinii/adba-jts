@@ -11,13 +11,22 @@ resolvers ++= Seq("snapshots"     at "http://oss.sonatype.org/content/repositori
                   "releases"      at "http://oss.sonatype.org/content/repositories/releases"
                  )
 
+
 seq(com.github.siasia.WebPlugin.webSettings :_*)
 
 unmanagedResourceDirectories in Test <+= (baseDirectory) { _ / "src/main/webapp" }
 
 scalacOptions ++= Seq("-deprecation", "-unchecked")
 
-fork in Test := true
+//fork in Test := true
+
+testOptions in Test <+= (target in Test) map {
+  t => Tests.Argument(TestFrameworks.ScalaTest, "-u", "%s" format (t / "test-reports"))
+}
+
+
+seq(ScctPlugin.instrumentSettings : _*)
+
 
 libraryDependencies ++= {
   val liftVersion = "2.5"
@@ -30,7 +39,7 @@ libraryDependencies ++= {
     "ch.qos.logback"    % "logback-classic"     % "1.0.6",
     "org.specs2"        %% "specs2"             % "1.14"             % "test",
     "com.h2database"    % "h2"                  % "1.3.167",
-    "org.scalatest"     %% "scalatest"          % "1.9.1"            % "test"
+    "org.scalatest"     %% "scalatest"          % "2.0.M8"            % "test"
   )
 }
 

@@ -11,3 +11,12 @@ addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.3.0")
 
 //Enable the sbt eclipse plugin
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.1.2")
+
+
+
+resolvers += Classpaths.typesafeResolver
+
+resolvers += "scct-github-repository" at "http://mtkopone.github.com/scct/maven-repo"
+
+addSbtPlugin("reaktor" % "sbt-scct" % "0.2-SNAPSHOT")
+
